@@ -1,5 +1,6 @@
 const http = require('http');
 
+
 const readFile = (file) => {
     return new Promise ((resolve, reject) => {
         fs.readFile(file, (err, data) => {
@@ -13,9 +14,17 @@ const readFile = (file) => {
 };
 
 http.createServer((req, res) => {
-    res.write('hello world!');
-    res.end();
-}).listen(3000);
+    if (req.url === "/api/guests"){
+        readFile("/guest.json")
+        .then( data => {
+            res.write(data);
+            res.end();
+        });
+    } else {
+        res.write('hello world!');
+        res.end();
+    }
+}).listen(4000);
 
 
 // const http = require('http');
